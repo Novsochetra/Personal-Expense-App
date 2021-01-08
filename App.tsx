@@ -23,11 +23,20 @@ import Animated, {
 export default function App() {
   const { width: WINDOW_WIDTH } = useWindowDimensions();
   const transition = (
-    <Transition.Sequence>
-      <Transition.Out type="slide-bottom" />
+    <Transition.Together>
+      <Transition.In
+        type="fade"
+        durationMs={2000}
+        delayMs={500}
+        interpolation="easeInOut"
+      />
       <Transition.Change interpolation="easeOut" />
-      <Transition.In type="fade" />
-    </Transition.Sequence>
+      <Transition.In
+        type="slide-bottom"
+        durationMs={2000}
+        interpolation="easeInOut"
+      />
+    </Transition.Together>
   );
   const ref = useRef();
 

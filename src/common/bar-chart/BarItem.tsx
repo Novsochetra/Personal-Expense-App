@@ -9,7 +9,7 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
-import Svg, { Rect } from "react-native-svg";
+import Svg, { Rect, Text as SvgText } from "react-native-svg";
 import { range } from "../../utils/Array";
 
 type BarItemProps = {
@@ -27,6 +27,7 @@ type BarItemProps = {
   value: number;
   index: number;
   barItemContainerWidth: number;
+  middlePosX: number;
 };
 
 export enum EBarItem {
@@ -35,6 +36,7 @@ export enum EBarItem {
 }
 
 const AnimatedRect = Animated.createAnimatedComponent(Rect);
+const AnimatedSvgText = Animated.createAnimatedComponent(SvgText);
 
 export const BarItem = ({
   key,
@@ -49,11 +51,13 @@ export const BarItem = ({
   index,
 
   barItemContainerWidth,
+  middlePosX,
 }: BarItemProps) => {
   // const [tooltipVisible, setTooltipVisible] = useState(false)
   const animatedStrokeWidth = useSharedValue(0);
   const animatedHeight = useSharedValue(0);
   const tooltipOpacity = useSharedValue(0);
+  const tooltipTextOpacity = useSharedValue(0);
   const MAX_STROKE_WIDTH = 5;
 
   const animatedProps = useAnimatedProps(() => {
@@ -65,7 +69,15 @@ export const BarItem = ({
 
   const animatedTooltipProps = useAnimatedStyle(() => {
     return {
-      opacity: withTiming(animatedStrokeWidth.value, {
+      opacity: withTiming(tooltipOpacity.value, {
+        duration: 800,
+      }),
+    };
+  });
+
+  const animatedTooltipTextProps = useAnimatedStyle(() => {
+    return {
+      opacity: withTiming(tooltipTextOpacity.value, {
         duration: 800,
       }),
     };
@@ -80,11 +92,13 @@ export const BarItem = ({
   const onIncrementStrokeWidth = () => {
     animatedStrokeWidth.value = MAX_STROKE_WIDTH;
     tooltipOpacity.value = 1;
+    tooltipTextOpacity.value = 1;
   };
 
   const onResetStrokeWidth = () => {
     animatedStrokeWidth.value = 0;
     tooltipOpacity.value = 0;
+    tooltipTextOpacity.value = 0;
   };
 
   return (
@@ -119,23 +133,21 @@ export const BarItem = ({
         width={barItemContainerWidth}
         rx={4}
         // stroke="url(#prefix__a)"
-        fill="#343434"
+        stroke="#579BFF"
+        strokeWidth="1"
+        // fill="#579BFF"
         height={30}
         animatedProps={animatedTooltipProps}
       ></AnimatedRect>
-      {/* <AnimatedRect
-        y={16}
-        x={EBarItem.WIDTH}
-        translateX={translateX}
-        data-name={`Rectangle ${key + 1}`}
-        width={EBarItem.WIDTH}
-        rx={4}
-        stroke="url(#prefix__a)"
-        fill="red"
-        height={30}
-        zIndex={100}
-        animatedProps={animatedTooltipProps}
-      /> */}
+      <AnimatedSvgText
+        fill="#909090"
+        y={35}
+        x={middlePosX}
+        textAnchor="middle"
+        animatedProps={animatedTooltipTextProps}
+      >
+        100K
+      </AnimatedSvgText>
     </>
   );
 };

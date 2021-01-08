@@ -150,10 +150,11 @@ const BarChart = ({
               height={EBarItem.HEIGHT - FONT_SIZE}
               value={d.value}
               barItemContainerWidth={BAR_ITEM_CONTAINER_SIZE}
+              middlePosX={MIDDLE_POS_X}
             />
 
             <SvgText
-              fill="black"
+              fill="#909090"
               x={MIDDLE_POS_X}
               fontSize={FONT_SIZE}
               y={containerHeight - EACH_SIZE_BARITEM_PADDING}
