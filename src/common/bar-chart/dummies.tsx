@@ -7,7 +7,7 @@ export const dummiesBarChartData = (): IBarChartData => {
   days.forEach((day) => {
     data.push({
       name: day,
-      value: Math.floor(Math.random() * 100_001) + 10_000, // Random value between 10_000 -> 100_000
+      value: Math.floor(Math.random() * 10_000_000) + 1_000_000, // Random value between 10_000 -> 100_000
     });
   });
 

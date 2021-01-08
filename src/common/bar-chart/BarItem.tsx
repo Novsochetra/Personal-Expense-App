@@ -11,6 +11,7 @@ import Animated, {
 } from "react-native-reanimated";
 import Svg, { Rect, Text as SvgText } from "react-native-svg";
 import { range } from "../../utils/Array";
+import { to_K_Or_M_Format } from "../../utils/Number";
 
 type BarItemProps = {
   key: number;
@@ -146,7 +147,7 @@ export const BarItem = ({
         textAnchor="middle"
         animatedProps={animatedTooltipTextProps}
       >
-        100K
+        {to_K_Or_M_Format(value)}
       </AnimatedSvgText>
     </>
   );
